@@ -1,26 +1,16 @@
 const express = require('express');
-const ApiHandler = require('../api/ApiHandler.js')
+const {
+    list,
+    addOrUpdate,
+    remove,
+    update
+} = require('../api/ApiHandler.js')
 
 const router = express.Router();
 
-router.get('/items',
-    function (req, res, next) {
-        (new ApiHandler).handleListRequest(req, res, next);
-    });
-
-router.post('/item',
-    function (req, res, next) {
-        (new ApiHandler).handleUpdateRequest(req, res, next);
-    });
-
-router.delete('/items/:_id',
-    function (req, res, next) {
-        (new ApiHandler).handleDeleteRequest(req, res, next);
-    });
-
-router.put('/item/:_id',
-    function (req, res, next) {
-        (new ApiHandler).handleChangeRequest(req, res, next);
-    });
+router.get('/items', list);
+router.post('/item', addOrUpdate);
+router.delete('/items/:_id', remove);
+router.put('/item/:_id', update);
 
 module.exports = router;

@@ -100,7 +100,7 @@ const Items = () => {
             <p onClick={() => isCompletedHandler(true)}>Completed</p>
             {!isCompleted && incompleteItems}
             {isCompleted && completeItems}
-            <pre style={{ textAlign: "left" }}>{JSON.stringify(toDos.results, null, 2)}</pre>
+            {/* <pre style={{ textAlign: "left" }}>{JSON.stringify(toDos.results, null, 2)}</pre> */}
         </div>
     );
 };
