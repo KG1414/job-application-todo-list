@@ -29,6 +29,13 @@ const Items = () => {
         setInput("");
     };
 
+    const deleteItem = async (id) => {
+        await fetch(`http://localhost:8088/api/items/${id}`, {
+            method: "DELETE"
+        });
+        fetchToDoItems();
+    };
+
     useEffect(() => {
         fetchToDoItems();
     }, []);
@@ -37,7 +44,7 @@ const Items = () => {
     if (toDos !== undefined) {
         allItems = toDos.results?.map(item => {
             const { _id, description, completed } = item;
-            return <Item key={_id} id={_id} description={description} completed={completed} />
+            return <Item key={_id} id={_id} description={description} completed={completed} deleteItem={deleteItem} />
         });
     };
 
