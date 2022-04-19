@@ -8,8 +8,6 @@ const Items = () => {
     const fetchToDoItems = async () => {
         const response = await fetch("http://localhost:8088/api/items");
         const data = await response.json();
-        // console.log("All data", data);
-        // console.log("Results", data.results);
         setToDos(data)
     };
 
@@ -36,6 +34,22 @@ const Items = () => {
         fetchToDoItems();
     };
 
+    const toggleDone = async (e, id) => {
+        e.preventDefault();
+        const foundItem = toDos.results.find(todo => todo._id === id);
+        await fetch(`http://localhost:8088/api/item/${id}`, {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                description: foundItem.description,
+                completed: !foundItem.completed
+            })
+        });
+        fetchToDoItems();
+    };
+
     useEffect(() => {
         fetchToDoItems();
     }, []);
@@ -44,7 +58,16 @@ const Items = () => {
     if (toDos !== undefined) {
         allItems = toDos.results?.map(item => {
             const { _id, description, completed } = item;
-            return <Item key={_id} id={_id} description={description} completed={completed} deleteItem={deleteItem} />
+            return (
+                <Item
+                    key={_id}
+                    id={_id}
+                    description={description}
+                    completed={completed}
+                    deleteItem={deleteItem}
+                    toggleDone={toggleDone}
+                />
+            );
         });
     };
 

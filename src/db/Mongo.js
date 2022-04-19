@@ -61,4 +61,13 @@ async function deleteItem(obj) {
     return { _id: obj._id }
 };
 
-module.exports = { getItems, addOrUpdateItem, getDatabase, deleteItem };
+async function updateItem(obj, body) {
+    if (!stored_db) {
+        await getDatabase()
+    }
+    console.log("obj", obj, "body", body)
+    await stored_db.collection("todo").updateOne({ _id: ObjectId(obj._id) }, { $set: { completed: body.completed } });
+    return { _id: obj._id }
+};
+
+module.exports = { getItems, addOrUpdateItem, getDatabase, deleteItem, updateItem };

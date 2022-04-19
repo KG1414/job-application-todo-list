@@ -18,4 +18,9 @@ router.delete('/items/:_id',
         (new ApiHandler).handleDeleteRequest(req, res, next);
     });
 
+router.put('/item/:_id',
+    function (req, res, next) {
+        (new ApiHandler).handleChangeRequest(req, res, next);
+    });
+
 module.exports = router;

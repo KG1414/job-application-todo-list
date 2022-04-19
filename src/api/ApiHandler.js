@@ -1,4 +1,4 @@
-const { getItems, addOrUpdateItem, deleteItem } = require("../db/Mongo")
+const { getItems, addOrUpdateItem, deleteItem, updateItem } = require("../db/Mongo")
 
 let ApiHandler = class {
     async handleListRequest(req, res) {
@@ -25,6 +25,15 @@ let ApiHandler = class {
         try {
             const result = await deleteItem(req.params);
             res.json({ status: "Success. Item Deleted", result: result });
+        } catch (error) {
+            return res.json({ status: "Error", message: error.message })
+        }
+    };
+
+    async handleChangeRequest(req, res) {
+        try {
+            const result = await updateItem(req.params, req.body);
+            res.json({ status: "Success. Updated", result: result });
         } catch (error) {
             return res.json({ status: "Error", message: error.message })
         }
