@@ -8,6 +8,7 @@ let ApiHandler = class {
 
     async handleUpdateRequest(req, res) {
         // Hmm, this function doesn't have any validation...
+
         if (!req.headers["content-type"] || req.headers["content-type"] !== "application/json") {
             console.log("content-type not application/json")
             return res.json({ status: "Error", message: "content-type must be application/json" })

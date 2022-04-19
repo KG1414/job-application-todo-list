@@ -48,7 +48,7 @@ async function addOrUpdateItem(obj) {
         return { _id: obj._id }
     }
     else {
-        const result = await todo.insert(obj)
+        const result = await todo.insertOne(obj)
         return { _id: result.insertedIds[0] }
     };
 };
