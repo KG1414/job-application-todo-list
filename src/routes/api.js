@@ -4,13 +4,18 @@ const ApiHandler = require('../api/ApiHandler.js')
 const router = express.Router();
 
 router.get('/items',
-    function(req, res, next) {
-        (new ApiHandler).handleListRequest(req, res , next);
+    function (req, res, next) {
+        (new ApiHandler).handleListRequest(req, res, next);
     });
 
 router.post('/item',
-    function(req, res, next) {
-        (new ApiHandler).handleUpdateRequest(req, res , next);
+    function (req, res, next) {
+        (new ApiHandler).handleUpdateRequest(req, res, next);
+    });
+
+router.delete('/items/:_id',
+    function (req, res, next) {
+        (new ApiHandler).handleDeleteRequest(req, res, next);
     });
 
 module.exports = router;

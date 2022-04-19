@@ -1,4 +1,4 @@
-const { getItems, addOrUpdateItem } = require("../db/Mongo")
+const { getItems, addOrUpdateItem, deleteItem } = require("../db/Mongo")
 
 let ApiHandler = class {
     async handleListRequest(req, res) {
@@ -20,6 +20,16 @@ let ApiHandler = class {
             return res.json({ status: "Error", message: error.message })
         }
     };
+
+    async handleDeleteRequest(req, res) {
+        try {
+            const result = await deleteItem(req.params);
+            res.json({ status: "Success. Item Deleted", result: result });
+        } catch (error) {
+            return res.json({ status: "Error", message: error.message })
+        }
+    };
+
 };
 
 module.exports = ApiHandler;

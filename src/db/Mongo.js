@@ -53,4 +53,12 @@ async function addOrUpdateItem(obj) {
     };
 };
 
-module.exports = { getItems, addOrUpdateItem, getDatabase };
+async function deleteItem(obj) {
+    if (!stored_db) {
+        await getDatabase()
+    }
+    await stored_db.collection("todo").deleteOne({ _id: ObjectId(obj._id) });
+    return { _id: obj._id }
+};
+
+module.exports = { getItems, addOrUpdateItem, getDatabase, deleteItem };
