@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Item from "../Item/Item";
+import CompletedItems from "../CompletedItems/CompletedItems";
 
 const Items = () => {
     const [toDos, setToDos] = useState([]);
     const [input, setInput] = useState("");
+    const [isCompleted, setIsCompleted] = useState(false);
 
     const fetchToDoItems = async () => {
         const response = await fetch("http://localhost:8088/api/items");
@@ -50,26 +52,43 @@ const Items = () => {
         fetchToDoItems();
     };
 
+    const isCompletedHandler = (status) => {
+        setIsCompleted(status);
+    };
+
     useEffect(() => {
         fetchToDoItems();
     }, []);
 
-    let allItems = <div>Loading...</div>
-    if (toDos !== undefined) {
-        allItems = toDos.results?.map(item => {
-            const { _id, description, completed } = item;
-            return (
-                <Item
-                    key={_id}
-                    id={_id}
-                    description={description}
-                    completed={completed}
-                    deleteItem={deleteItem}
-                    toggleDone={toggleDone}
-                />
-            );
-        });
-    };
+    let incompleteItems = <div>Loading...</div>;
+    incompleteItems = toDos.results?.map(item => {
+        const { _id, description, completed } = item;
+        return (
+            <Item
+                key={_id}
+                id={_id}
+                description={description}
+                completed={completed}
+                deleteItem={deleteItem}
+                toggleDone={toggleDone}
+            />
+        );
+    });
+
+    let completeItems = <div>Loading...</div>;
+    completeItems = toDos.results?.map(item => {
+        const { _id, description, completed } = item;
+        return (
+            <CompletedItems
+                key={_id}
+                id={_id}
+                description={description}
+                completed={completed}
+                deleteItem={deleteItem}
+                toggleDone={toggleDone}
+            />
+        );
+    });
 
     return (
         <div>
@@ -77,7 +96,10 @@ const Items = () => {
                 <input type="text" onChange={(e) => setInput(e.target.value)} value={input} placeholder="Add item"></input>
                 <button type="submit">Add Task</button>
             </form>
-            {allItems}
+            <p onClick={() => isCompletedHandler(false)}>Incomplete</p>
+            <p onClick={() => isCompletedHandler(true)}>Completed</p>
+            {!isCompleted && incompleteItems}
+            {isCompleted && completeItems}
             <pre style={{ textAlign: "left" }}>{JSON.stringify(toDos.results, null, 2)}</pre>
         </div>
     );
