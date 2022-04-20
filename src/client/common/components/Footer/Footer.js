@@ -1,5 +1,5 @@
-import './Footer.css';
 import { currentYear } from '../Date/Date';
+import './Footer.css';
 
 const Footer = () => {
     return (
