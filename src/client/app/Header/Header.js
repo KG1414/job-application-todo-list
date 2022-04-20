@@ -17,7 +17,7 @@ const Header = ({ isCompletedHandler, isActive }) => {
                 />
             </Menu>
         </div>
-    )
+    );
 };
 
 export default Header;

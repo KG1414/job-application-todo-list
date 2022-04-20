@@ -1,0 +1,12 @@
+@media screen and (max-width: 900px) {
+    .input__section {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-direction: column !important;
+    }
+
+    .header__count {
+        text-align: center;
+    }
+}

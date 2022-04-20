@@ -42,6 +42,6 @@ const ItemPlaceholder = () => (
             </Placeholder>
         </Segment>
     </div>
-)
+);
 
 export default ItemPlaceholder;

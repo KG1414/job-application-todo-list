@@ -4,10 +4,12 @@
 
 .description {
     font-size: medium;
+    font-weight: bold;
 }
 
 .description-timestamp {
-    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     font-size: small;
     color: #616161;
 }
@@ -15,3 +17,4 @@
 .completed__item {
     text-decoration: line-through;
 }
+

@@ -3,6 +3,7 @@ import Item from "../Item/Item";
 import Header from "../Header/Header";
 import { Input, List } from 'semantic-ui-react';
 import ItemPlaceholder from "../../common/components/ItemPlaceholder/ItemPlaceholder";
+import './Items.css';
 
 const Items = () => {
     const [toDos, setToDos] = useState([]);
@@ -79,19 +80,17 @@ const Items = () => {
     };
 
     /////////// This section from below to next comment could be moved into a seperate component - maybe a Factory type file with createItem function ////////////
-    let incompletedItemsResult;
-
-    if (isCompleted && toDos.results !== null && toDos.results !== undefined) {
-        incompletedItemsResult = toDos.results.filter(res => res.completed === true);
-    };
     let itemsList = <ItemPlaceholder />;
     if (loading && !error && !toDos.results) {
-        <ItemPlaceholder />
+        itemsList = <ItemPlaceholder />
     };
     if (error) {
-        <p>{error}</p>
+        itemsList = <p>{error}</p>
     };
-    if (isCompleted) {
+
+    let incompletedItemsResult;
+    if (isCompleted && toDos.results !== null && toDos.results !== undefined) {
+        incompletedItemsResult = toDos.results.filter(res => res.completed === true);
         const filteredCompletedItemResults = incompletedItemsResult.filter(res =>
             res.description.toLowerCase().includes(input.searchInput.toLocaleLowerCase())
         );
@@ -133,7 +132,7 @@ const Items = () => {
             );
         });
     };
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////// Refer to above comment ////////////////////////////////////////////////////////
 
     useEffect(() => {
         fetchToDoItems();
@@ -143,9 +142,9 @@ const Items = () => {
     return (
         <div>
             <Header isCompletedHandler={isCompletedHandler} isActive={isActive} />
-            {!isCompleted ? <p>{count} items left to complete</p> : <p style={{ height: "14px", marginBottom: "20px" }}></p>}
+            {!isCompleted ? <p className="header__count">{count} items left to complete</p> : <p style={{ height: "14px", marginBottom: "20px" }}></p>}
             <List divided verticalAlign='middle'>
-                <List.Item>
+                <List.Item className="input__section">
                     <List.Content floated='left' style={{ marginBottom: "15px" }}>
                         <form onSubmit={addToDo}>
                             <div className="ui action input">
