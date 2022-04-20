@@ -2,16 +2,19 @@ const { getItems, addOrUpdateItem, deleteItem, updateItem } = require("../db/Mon
 
 exports.list = async (req, res) => {
     const result = await getItems();
-    res.json({ status: "Success", results: result });
+    res.status(200).json({ status: "Success", results: result });
 };
 
 exports.addOrUpdate = async (req, res) => {
-    // Hmm, this function doesn't have any validation...
+    if (!req.body.description || req.body.description === undefined || req.body.description === null) {
+        console.log("Please add a non-empty text field");
+        return res.json({ status: "Error", message: "Please add a non-empty text field" });
+    };
 
     if (!req.headers["content-type"] || req.headers["content-type"] !== "application/json") {
         console.log("content-type not application/json");
         return res.json({ status: "Error", message: "content-type must be application/json" });
-    }
+    };
     try {
         const result = await addOrUpdateItem(req.body);
         res.json({ status: "Success", result: result });
