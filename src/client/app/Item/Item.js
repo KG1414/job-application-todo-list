@@ -27,7 +27,7 @@ const Item = ({ id, description, completed, createdAt, deleteItem, toggleDone })
                 <div className="description-timestamp">{createdAt}</div>
             </List.Content>
         </List.Item>
-    )
+    );
 };
 
 export default Item;

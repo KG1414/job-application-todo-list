@@ -7,13 +7,13 @@ const Header = ({ isCompletedHandler, isActive }) => {
             <Menu secondary widths={2}>
                 <Menu.Item
                     name='incompleted items'
-                    active={isActive}
-                    onClick={(e) => isCompletedHandler(e, true)}
+                    active={!isActive}
+                    onClick={(e) => isCompletedHandler(e, false)}
                 />
                 <Menu.Item
                     name='completed items'
-                    active={!isActive}
-                    onClick={(e) => isCompletedHandler(e, false)}
+                    active={isActive}
+                    onClick={(e) => isCompletedHandler(e, true)}
                 />
             </Menu>
         </div>

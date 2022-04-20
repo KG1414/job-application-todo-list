@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Item from "../Item/Item";
 import Header from "../Header/Header";
-import { Input, List } from 'semantic-ui-react'
+import { Input, List } from 'semantic-ui-react';
+import ItemPlaceholder from "../../common/components/ItemPlaceholder/ItemPlaceholder";
 
 const Items = () => {
     const [toDos, setToDos] = useState([]);
@@ -26,10 +27,8 @@ const Items = () => {
         } catch (err) {
             setError(err.message || "Unexpected Error.");
         } finally {
-            setTimeout(() => {
-                setLoading(false);
-            }, 600);
-        }
+            setLoading(false);
+        };
     };
 
     const addToDo = async (e) => {
@@ -79,19 +78,21 @@ const Items = () => {
         setIsActive(status)
     };
 
-    useEffect(() => {
-        fetchToDoItems();
-    }, []);
-
     /////////// This section from below to next comment could be moved into a seperate component - maybe a Factory type file with createItem function ////////////
     let incompletedItemsResult;
     let count = 0;
+
     if (isCompleted && toDos.results !== null && toDos.results !== undefined) {
-        incompletedItemsResult = toDos.results.filter(res => res.completed === false);
+        incompletedItemsResult = toDos.results.filter(res => res.completed === true);
         count = incompletedItemsResult.length;
     };
-    let itemsList = <div>There's nothing here...</div>;
-
+    let itemsList = <ItemPlaceholder />;
+    if (loading && !error && !toDos.results) {
+        <ItemPlaceholder />
+    };
+    if (error) {
+        <p>{error}</p>
+    };
     if (isCompleted) {
         const filteredCompletedItemResults = incompletedItemsResult.filter(res =>
             res.description.toLowerCase().includes(input.searchInput.toLocaleLowerCase())
@@ -113,7 +114,7 @@ const Items = () => {
     };
 
     if (!isCompleted && toDos.results !== null && toDos.results !== undefined) {
-        const completedItemsResult = toDos.results.filter(res => res.completed === true);
+        const completedItemsResult = toDos.results.filter(res => res.completed === false);
         const filteredCompletedItemResults = completedItemsResult.filter(res =>
             res.description.toLowerCase().includes(input.searchInput.toLocaleLowerCase())
         );
@@ -133,6 +134,11 @@ const Items = () => {
         });
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    useEffect(() => {
+        fetchToDoItems();
+        return () => console.log('unmounting...');
+    }, []);
 
     return (
         <div>

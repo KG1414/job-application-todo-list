@@ -10,7 +10,6 @@ exports.addOrUpdate = async (req, res) => {
         console.log("Please add a non-empty text field");
         return res.json({ status: "Error", message: "Please add a non-empty text field" });
     };
-
     if (!req.headers["content-type"] || req.headers["content-type"] !== "application/json") {
         console.log("content-type not application/json");
         return res.json({ status: "Error", message: "content-type must be application/json" });
