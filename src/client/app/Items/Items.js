@@ -80,11 +80,9 @@ const Items = () => {
 
     /////////// This section from below to next comment could be moved into a seperate component - maybe a Factory type file with createItem function ////////////
     let incompletedItemsResult;
-    let count = 0;
 
     if (isCompleted && toDos.results !== null && toDos.results !== undefined) {
         incompletedItemsResult = toDos.results.filter(res => res.completed === true);
-        count = incompletedItemsResult.length;
     };
     let itemsList = <ItemPlaceholder />;
     if (loading && !error && !toDos.results) {
@@ -113,8 +111,10 @@ const Items = () => {
         });
     };
 
+    let count = 0;
     if (!isCompleted && toDos.results !== null && toDos.results !== undefined) {
         const completedItemsResult = toDos.results.filter(res => res.completed === false);
+        count = completedItemsResult.length;
         const filteredCompletedItemResults = completedItemsResult.filter(res =>
             res.description.toLowerCase().includes(input.searchInput.toLocaleLowerCase())
         );
@@ -143,7 +143,7 @@ const Items = () => {
     return (
         <div>
             <Header isCompletedHandler={isCompletedHandler} isActive={isActive} />
-            {isCompleted ? <p>{count} items left to complete</p> : <p style={{ height: "14px", marginBottom: "20px" }}></p>}
+            {!isCompleted ? <p>{count} items left to complete</p> : <p style={{ height: "14px", marginBottom: "20px" }}></p>}
             <List divided verticalAlign='middle'>
                 <List.Item>
                     <List.Content floated='left' style={{ marginBottom: "15px" }}>
