@@ -11,3 +11,7 @@
     font-size: small;
     color: #616161;
 }
+
+.completed__item {
+    text-decoration: line-through;
+}

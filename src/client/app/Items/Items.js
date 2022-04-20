@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Item from "../Item/Item";
-import CompletedItems from "../CompletedItem/CompletedItem";
 import Header from "../Header/Header";
 import { Input, List } from 'semantic-ui-react'
 
@@ -8,7 +7,10 @@ const Items = () => {
     const [toDos, setToDos] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState({
+        itemsInput: "",
+        searchInput: ""
+    });
     const [isCompleted, setIsCompleted] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
@@ -38,13 +40,15 @@ const Items = () => {
                 "content-type": "application/json"
             },
             body: JSON.stringify({
-                description: input,
+                description: input.itemsInput,
                 completed: false,
                 createdAt: new Date()
             })
         });
         fetchToDoItems();
-        setInput("");
+        setInput(prevValue => {
+            return { ...prevValue, itemsInput: "" }
+        });
     };
 
     const deleteItem = async (id) => {
@@ -79,61 +83,81 @@ const Items = () => {
         fetchToDoItems();
     }, []);
 
-    let incompleteItemsList = <div>There's nothing here...</div>;
-    incompleteItemsList = toDos.results?.map(item => {
-        const { _id, description, completed, createdAt } = item;
-        return (
-            <Item
-                key={_id}
-                id={_id}
-                description={description}
-                completed={completed}
-                createdAt={createdAt}
-                deleteItem={deleteItem}
-                toggleDone={toggleDone}
-            />
-        );
-    });
+    let incompletedItemsResult;
+    let count = 0;
+    if (isCompleted && toDos.results !== null && toDos.results !== undefined) {
+        incompletedItemsResult = toDos.results.filter(res => res.completed === false);
+        count = incompletedItemsResult.length;
+    };
 
-    let completedItemsList = <div>There's nothing here...</div>;
-    completedItemsList = toDos.results?.map(item => {
-        const { _id, description, completed, createdAt } = item;
-        return (
-            <CompletedItems
-                key={_id}
-                id={_id}
-                description={description}
-                completed={completed}
-                createdAt={createdAt}
-                deleteItem={deleteItem}
-                toggleDone={toggleDone}
-            />
-        );
-    });
+    let incompleteItemsList = <div>There's nothing here...</div>;
+
+    if (isCompleted) {
+        incompleteItemsList = incompletedItemsResult.map(item => {
+            const { _id, description, completed, createdAt } = item;
+            return (
+                <Item
+                    key={_id}
+                    id={_id}
+                    description={description}
+                    completed={completed}
+                    createdAt={createdAt}
+                    deleteItem={deleteItem}
+                    toggleDone={toggleDone}
+                />
+            );
+        });
+    };
+    if (!isCompleted && toDos.results !== null && toDos.results !== undefined) {
+        const completedItemsResult = toDos.results.filter(res => res.completed === true);
+        incompleteItemsList = completedItemsResult.map(item => {
+            const { _id, description, completed, createdAt } = item;
+            return (
+                <Item
+                    key={_id}
+                    id={_id}
+                    description={description}
+                    completed={completed}
+                    createdAt={createdAt}
+                    deleteItem={deleteItem}
+                    toggleDone={toggleDone}
+                />
+            );
+        });
+    };
 
     return (
         <div>
             <Header isCompletedHandler={isCompletedHandler} isActive={isActive} />
+            {isCompleted ? <p>{count} items left to complete</p> : <p style={{ height: "14px", marginBottom: "20px" }}></p>}
             <List divided verticalAlign='middle'>
                 <List.Item>
                     <List.Content floated='left' style={{ marginBottom: "15px" }}>
                         <form onSubmit={addToDo}>
                             <div className="ui action input">
-                                <input type="text" placeholder="Add Task..." onChange={(e) => setInput(e.target.value)} value={input} />
+                                <input
+                                    type="text"
+                                    placeholder="Add Task..."
+                                    onChange={(e) => setInput((prevValue) => ({ ...prevValue, itemsInput: e.target.value }))}
+                                    value={input.itemsInput}
+                                />
                                 <button type="submit" className="ui button">Submit</button>
                             </div>
                         </form>
                     </List.Content>
                     <List.Content floated='right'>
-                        <Input icon='search' placeholder='Search Tasks...' floated="right" />
+                        <Input
+                            icon='search'
+                            placeholder='Search Tasks...'
+                            floated="right"
+                            value={input.searchInput}
+                            onChange={(e) => setInput((prevValue) => ({ ...prevValue, searchInput: e.target.value }))}
+                        />
                     </List.Content>
                 </List.Item>
             </List>
             <List divided verticalAlign='middle'>
-                {isCompleted && incompleteItemsList}
-            </List>
-            <List divided verticalAlign='middle'>
-                {!isCompleted && completedItemsList}
+                {incompleteItemsList}
             </List>
             <div style={{ height: "120px" }}></div>
         </div>
