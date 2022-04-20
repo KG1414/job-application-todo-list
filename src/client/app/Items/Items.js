@@ -1,16 +1,31 @@
 import { useState, useEffect } from "react";
 import Item from "../Item/Item";
-import CompletedItems from "../CompletedItems/CompletedItems";
+import CompletedItems from "../CompletedItem/CompletedItem";
+import Header from "../Header/Header";
 
 const Items = () => {
     const [toDos, setToDos] = useState([]);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [input, setInput] = useState("");
     const [isCompleted, setIsCompleted] = useState(false);
 
     const fetchToDoItems = async () => {
-        const response = await fetch("http://localhost:8088/api/items");
-        const data = await response.json();
-        setToDos(data)
+        setLoading(true);
+        try {
+            const response = await fetch("http://localhost:8088/api/items");
+            const data = await response.json();
+            if (data === undefined) return;
+            if (response.status === 200) {
+                setToDos(data);
+            }
+        } catch (err) {
+            setError(err.message || "Unexpected Error.");
+        } finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 600);
+        }
     };
 
     const addToDo = async (e) => {
@@ -60,8 +75,8 @@ const Items = () => {
         fetchToDoItems();
     }, []);
 
-    let incompleteItems = <div>Loading...</div>;
-    incompleteItems = toDos.results?.map(item => {
+    let incompleteItemsList = <div>There's nothing here...</div>;
+    incompleteItemsList = toDos.results?.map(item => {
         const { _id, description, completed } = item;
         return (
             <Item
@@ -75,8 +90,8 @@ const Items = () => {
         );
     });
 
-    let completeItems = <div>Loading...</div>;
-    completeItems = toDos.results?.map(item => {
+    let completedItemsList = <div>There's nothing here...</div>;
+    completedItemsList = toDos.results?.map(item => {
         const { _id, description, completed } = item;
         return (
             <CompletedItems
@@ -98,9 +113,11 @@ const Items = () => {
             </form>
             <p onClick={() => isCompletedHandler(false)}>Incomplete</p>
             <p onClick={() => isCompletedHandler(true)}>Completed</p>
-            {!isCompleted && incompleteItems}
-            {isCompleted && completeItems}
+            <Header />
+            {!isCompleted && incompleteItemsList}
+            {isCompleted && completedItemsList}
             {/* <pre style={{ textAlign: "left" }}>{JSON.stringify(toDos.results, null, 2)}</pre> */}
+            <div style={{ height: "120px" }}></div>
         </div>
     );
 };

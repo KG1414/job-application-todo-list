@@ -9,7 +9,7 @@ const CompletedItems = ({ id, description, completed, deleteItem, toggleDone }) 
                             checked={completed ? true : false}
                             onChange={(e) => toggleDone(e, id)}>
                         </input>
-                        <div className="header">{description}</div>
+                        <div className="header" style={{ textDecoration: "line-through" }}>{description}</div>
                         <div className="description">{completed ? "completed" : "to be completed"}</div>
                         <div className="description">Updated 10 mins ago</div>
                         <button onClick={() => deleteItem(id)}>X</button>

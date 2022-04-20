@@ -1,10 +1,5 @@
+const { list, addOrUpdate, remove, update } = require('../controllers/apiHandler');
 const express = require('express');
-const {
-    list,
-    addOrUpdate,
-    remove,
-    update
-} = require('../api/ApiHandler.js')
 
 const router = express.Router();
 

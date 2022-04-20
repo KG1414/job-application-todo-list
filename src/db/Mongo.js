@@ -1,6 +1,6 @@
 // Retrieve
-const MongoClient = require('mongodb').MongoClient
-const ObjectId = require('mongodb').ObjectId
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 
 const dbconnectionstring = "mongodb://kyle:GSEieaoi33wjoda@3.26.218.179:27017/kyle?connectTimeoutMS=10000&authSource=kyle&authMechanism=SCRAM-SHA-256";
 
@@ -16,9 +16,9 @@ function getDatabase() {
         client.connect(err => {
             if (!err) {
                 stored_db = client.db();
-                resolve(stored_db)
+                resolve(stored_db);
             } else {
-                console.log(err)
+                console.log(err);
                 reject(err);
             }
         });
@@ -27,45 +27,44 @@ function getDatabase() {
 
 async function getItems() {
     if (!stored_db) {
-        await getDatabase()
-    }
+        await getDatabase();
+    };
     const todo = stored_db.collection("todo");
-    return await todo.find().toArray()
+    return await todo.find().toArray();
 };
 
 async function addOrUpdateItem(obj) {
     if (!stored_db) {
-        await getDatabase()
-    }
+        await getDatabase();
+    };
     const todo = stored_db.collection("todo");
     if (obj.hasOwnProperty("_id")) {
-        const insertion = JSON.parse(JSON.stringify(obj))
-        delete insertion._id
-        const result = await todo.replaceOne({ _id: new ObjectId(obj._id) }, insertion)
+        const insertion = JSON.parse(JSON.stringify(obj));
+        delete insertion._id;
+        const result = await todo.replaceOne({ _id: new ObjectId(obj._id) }, insertion);
         if (result.matchedCount === 0) {
-            throw new Error("No matching _id found.")
-        }
-        return { _id: obj._id }
+            throw new Error("No matching _id found.");
+        };
+        return { _id: obj._id };
     }
     else {
-        const result = await todo.insertOne(obj)
-        return { _id: result.insertedIds[0] }
+        const result = await todo.insertOne(obj);
+        return { _id: result.insertedIds[0] };
     };
 };
 
 async function deleteItem(obj) {
     if (!stored_db) {
-        await getDatabase()
-    }
+        await getDatabase();
+    };
     await stored_db.collection("todo").deleteOne({ _id: ObjectId(obj._id) });
-    return { _id: obj._id }
+    return { _id: obj._id };
 };
 
 async function updateItem(obj, body) {
     if (!stored_db) {
-        await getDatabase()
-    }
-    console.log("obj", obj, "body", body)
+        await getDatabase();
+    };
     await stored_db.collection("todo").updateOne({ _id: ObjectId(obj._id) }, { $set: { completed: body.completed } });
     return { _id: obj._id }
 };

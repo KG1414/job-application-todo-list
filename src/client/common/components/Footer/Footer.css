@@ -1,0 +1,33 @@
+#footer {
+    text-align: center;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+}
+
+.copyright {
+    font-size: 14px !important;
+}
+
+.footer__container {
+    padding: 1.5% 10% 1%;
+    background-color: #F5F5F5;
+}
+
+.footer__container p {
+    color: #8f8f8f;
+}
+
+.footer__container a {
+    color: black;
+}
+
+.footer__logo {
+    margin: 0 10px 20px 10px;
+}
+
+@media screen and (max-width: 800px) {
+    .copyright {
+        font-size: 12px !important;
+    }
+}
