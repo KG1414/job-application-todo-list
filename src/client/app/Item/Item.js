@@ -1,14 +1,14 @@
-import { List } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react';
 import './Item.css';
 
-const Item = ({ id, description, completed, deleteItem, toggleDone }) => {
+const Item = ({ id, description, completed, createdAt, deleteItem, toggleDone }) => {
     if (!completed) {
         return (
-            <List.Item>
+            <List.Item style={{ paddingTop: "2rem" }}>
                 <List.Content floated='right'>
                     <i
                         className="fa-solid fa-delete-left circle fa-lg"
-                        style={{ cursor: "pointer", paddingTop: "0.2rem" }}
+                        style={{ cursor: "pointer", paddingTop: "0.8rem" }}
                         onClick={() => deleteItem(id)}>
                     </i>
                 </List.Content>
@@ -22,10 +22,10 @@ const Item = ({ id, description, completed, deleteItem, toggleDone }) => {
                 </List.Content>
                 <List.Content>
                     <h3>{description}</h3>
-                    <div className="description">{completed ? "completed" : "to be completed"}</div>
+                    <div className="description">{completed ? "Completed" : "To be completed"}</div>
                 </List.Content>
                 <List.Content floated="right">
-                    <div className="description">Updated 10 mins ago</div>
+                    <div className="description-timestamp">{createdAt}</div>
                 </List.Content>
             </List.Item>
         )

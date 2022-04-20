@@ -39,7 +39,8 @@ const Items = () => {
             },
             body: JSON.stringify({
                 description: input,
-                completed: false
+                completed: false,
+                createdAt: new Date()
             })
         });
         fetchToDoItems();
@@ -80,13 +81,14 @@ const Items = () => {
 
     let incompleteItemsList = <div>There's nothing here...</div>;
     incompleteItemsList = toDos.results?.map(item => {
-        const { _id, description, completed } = item;
+        const { _id, description, completed, createdAt } = item;
         return (
             <Item
                 key={_id}
                 id={_id}
                 description={description}
                 completed={completed}
+                createdAt={createdAt}
                 deleteItem={deleteItem}
                 toggleDone={toggleDone}
             />
@@ -95,13 +97,14 @@ const Items = () => {
 
     let completedItemsList = <div>There's nothing here...</div>;
     completedItemsList = toDos.results?.map(item => {
-        const { _id, description, completed } = item;
+        const { _id, description, completed, createdAt } = item;
         return (
             <CompletedItems
                 key={_id}
                 id={_id}
                 description={description}
                 completed={completed}
+                createdAt={createdAt}
                 deleteItem={deleteItem}
                 toggleDone={toggleDone}
             />
@@ -126,7 +129,6 @@ const Items = () => {
                     </List.Content>
                 </List.Item>
             </List>
-            <br />
             <List divided verticalAlign='middle'>
                 {isCompleted && incompleteItemsList}
             </List>
