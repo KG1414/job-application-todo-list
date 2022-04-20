@@ -83,17 +83,20 @@ const Items = () => {
         fetchToDoItems();
     }, []);
 
+    /////////// This section from below to next comment could be moved into a seperate component - maybe a Factory type file with createItem function ////////////
     let incompletedItemsResult;
     let count = 0;
     if (isCompleted && toDos.results !== null && toDos.results !== undefined) {
         incompletedItemsResult = toDos.results.filter(res => res.completed === false);
         count = incompletedItemsResult.length;
     };
-
-    let incompleteItemsList = <div>There's nothing here...</div>;
+    let itemsList = <div>There's nothing here...</div>;
 
     if (isCompleted) {
-        incompleteItemsList = incompletedItemsResult.map(item => {
+        const filteredCompletedItemResults = incompletedItemsResult.filter(res =>
+            res.description.toLowerCase().includes(input.searchInput.toLocaleLowerCase())
+        );
+        itemsList = filteredCompletedItemResults.map(item => {
             const { _id, description, completed, createdAt } = item;
             return (
                 <Item
@@ -108,9 +111,13 @@ const Items = () => {
             );
         });
     };
+
     if (!isCompleted && toDos.results !== null && toDos.results !== undefined) {
         const completedItemsResult = toDos.results.filter(res => res.completed === true);
-        incompleteItemsList = completedItemsResult.map(item => {
+        const filteredCompletedItemResults = completedItemsResult.filter(res =>
+            res.description.toLowerCase().includes(input.searchInput.toLocaleLowerCase())
+        );
+        itemsList = filteredCompletedItemResults.map(item => {
             const { _id, description, completed, createdAt } = item;
             return (
                 <Item
@@ -125,6 +132,7 @@ const Items = () => {
             );
         });
     };
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <div>
@@ -157,7 +165,7 @@ const Items = () => {
                 </List.Item>
             </List>
             <List divided verticalAlign='middle'>
-                {incompleteItemsList}
+                {itemsList}
             </List>
             <div style={{ height: "120px" }}></div>
         </div>
