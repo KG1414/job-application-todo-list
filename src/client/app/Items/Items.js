@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Item from "../Item/Item";
 import CompletedItems from "../CompletedItem/CompletedItem";
 import Header from "../Header/Header";
+import { Input, List } from 'semantic-ui-react'
 
 const Items = () => {
     const [toDos, setToDos] = useState([]);
@@ -9,6 +10,7 @@ const Items = () => {
     const [loading, setLoading] = useState(false);
     const [input, setInput] = useState("");
     const [isCompleted, setIsCompleted] = useState(false);
+    const [isActive, setIsActive] = useState(false);
 
     const fetchToDoItems = async () => {
         setLoading(true);
@@ -67,8 +69,9 @@ const Items = () => {
         fetchToDoItems();
     };
 
-    const isCompletedHandler = (status) => {
+    const isCompletedHandler = (e, status) => {
         setIsCompleted(status);
+        setIsActive(status)
     };
 
     useEffect(() => {
@@ -107,16 +110,29 @@ const Items = () => {
 
     return (
         <div>
-            <form onSubmit={addToDo}>
-                <input type="text" onChange={(e) => setInput(e.target.value)} value={input} placeholder="Add item"></input>
-                <button type="submit">Add Task</button>
-            </form>
-            <p onClick={() => isCompletedHandler(false)}>Incomplete</p>
-            <p onClick={() => isCompletedHandler(true)}>Completed</p>
-            <Header />
-            {!isCompleted && incompleteItemsList}
-            {isCompleted && completedItemsList}
-            {/* <pre style={{ textAlign: "left" }}>{JSON.stringify(toDos.results, null, 2)}</pre> */}
+            <Header isCompletedHandler={isCompletedHandler} isActive={isActive} />
+            <List divided verticalAlign='middle'>
+                <List.Item>
+                    <List.Content floated='left' style={{ marginBottom: "15px" }}>
+                        <form onSubmit={addToDo}>
+                            <div className="ui action input">
+                                <input type="text" placeholder="Add Task..." onChange={(e) => setInput(e.target.value)} value={input} />
+                                <button type="submit" className="ui button">Submit</button>
+                            </div>
+                        </form>
+                    </List.Content>
+                    <List.Content floated='right'>
+                        <Input icon='search' placeholder='Search Tasks...' floated="right" />
+                    </List.Content>
+                </List.Item>
+            </List>
+            <br />
+            <List divided verticalAlign='middle'>
+                {isCompleted && incompleteItemsList}
+            </List>
+            <List divided verticalAlign='middle'>
+                {!isCompleted && completedItemsList}
+            </List>
             <div style={{ height: "120px" }}></div>
         </div>
     );

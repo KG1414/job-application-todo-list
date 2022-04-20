@@ -1,34 +1,22 @@
-import React, { useState } from 'react';
-import { Input, Menu } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
+import './Header.css';
 
-const Header = (props) => {
-    const [isActive, setIsActive] = useState("home");
-
-    const handleItemClick = (e, { name }) => setIsActive(name);
-
+const Header = ({ isCompletedHandler, isActive }) => {
     return (
-        <Menu secondary>
-            <Menu.Item
-                name='home'
-                active={isActive === 'home'}
-                onClick={handleItemClick}
-            />
-            <Menu.Item
-                name='messages'
-                active={isActive === 'messages'}
-                onClick={handleItemClick}
-            />
-            <Menu.Menu position='right'>
-                <Menu.Item>
-                    <Input icon='search' placeholder='Search...' />
-                </Menu.Item>
+        <div className="header__wrapper">
+            <Menu secondary widths={2}>
                 <Menu.Item
-                    name='logout'
-                    active={isActive === 'logout'}
-                    onClick={handleItemClick}
+                    name='incompleted items'
+                    active={isActive}
+                    onClick={(e) => isCompletedHandler(e, true)}
                 />
-            </Menu.Menu>
-        </Menu>
+                <Menu.Item
+                    name='completed items'
+                    active={!isActive}
+                    onClick={(e) => isCompletedHandler(e, false)}
+                />
+            </Menu>
+        </div>
     )
 };
 
