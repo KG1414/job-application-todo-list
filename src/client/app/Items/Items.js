@@ -79,7 +79,7 @@ const Items = () => {
         setIsActive(status)
     };
 
-    /////////// This section from below to next comment could be moved into a seperate component - maybe a Factory type file with createItem function ////////////
+    //// This section from below up until the next comment could be moved into a seperate component - maybe a Factory type file with createItem function ////
     let itemsList = <ItemPlaceholder />;
     if (loading && !error && !toDos.results) {
         itemsList = <ItemPlaceholder />
@@ -132,7 +132,7 @@ const Items = () => {
             );
         });
     };
-    ////////////////////// Refer to above comment ////////////////////////////////////////////////////////
+    ////////////////////// Refer to above comment //////////////////////
 
     useEffect(() => {
         fetchToDoItems();
