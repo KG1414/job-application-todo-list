@@ -1,6 +1,8 @@
 ## Job Application Full Stack Challenge
+ 
+For this job application challenge the goal was to produce a full stack to-do list.
 
-For this challenge I was provided a database and had to meet the requirements below.
+I was provided a database and backend code with a simple instance and had to meet the requirements listed below.
 
 I was provided with a MongoDB instance. The database had just one collection, `todo`, which had documents that look like:
 ```javascript
