@@ -2,7 +2,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 
-const dbconnectionstring = "mongodb://kyle:GSEieaoi33wjoda@3.26.218.179:27017/kyle?connectTimeoutMS=10000&authSource=kyle&authMechanism=SCRAM-SHA-256";
+const dbconnectionstring = process.env.DB_URI;
 
 // Not recommended for production systems, but...
 let stored_db = null;

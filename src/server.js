@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,6 +12,10 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
 
+getDatabase().then(db => {
+  console.log("DB ready.");
+}).catch(err => console.log("DB error", err));
+
 app.use('/api', api_routes);
 
 app.get('/', function (req, res) {
@@ -20,6 +25,4 @@ app.get('/', function (req, res) {
 console.log(`Listening to port ${port} for API.`);
 app.listen(port);
 
-getDatabase().then(db => {
-  console.log("DB ready.");
-}).catch(err => console.log("DB error", err));
+

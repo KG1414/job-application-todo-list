@@ -1,4 +1,4 @@
-## Welcome to the Bluedot Full Stack Challenge!
+## Welcome to the Full Stack Challenge!
 
 In this challenge, you are to take the code in this repository, and update it with all of the code necessary to show a working to-do list which persists between refreshes using a MongoDB database.
 
