@@ -12,7 +12,7 @@ I was provided with a MongoDB instance. The database had just one collection, `t
          completed: false
     }
 ```
-The database should store all todo-related data.
+The database needed to store all to-do related data.
 
 ## Requirements
 The user should be able to:
