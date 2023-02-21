@@ -35,6 +35,14 @@ Examples are:
 ## Usage
 Node version: `14.17.3` (any Node 14.xx should be fine)
 
+Create a .env file at the root of the project and add your own MongoDB URI to a variable named DB_URI (in this test I was originally given a URI to use)
+
+To run client and server concurrently, use:
+```shell
+npm install
+npm run dev
+```
+
 To start the React side, use:
 ```shell
 npm install
@@ -44,7 +52,7 @@ npm start
 To start the Express side, use:
 ```shell
 npm install
-node src/server.js
+npm run server
 ```
 
 To access the UI, go to: http://localhost:3000
