@@ -1,6 +1,6 @@
 ## Job Application Full Stack Challenge
  
-For this job application challenge the goal was to produce a full stack to-do list.
+For this job application challenge the goal was to produce a full stack to-do list within 48hrs of receiving this.
 
 I was provided a database and backend code with a simple instance and had to meet the requirements listed below.
 
