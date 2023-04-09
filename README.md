@@ -4,7 +4,7 @@ For this job application challenge the goal was to produce a full stack to-do li
 
 I was provided a database and backend code with a simple instance and had to meet the requirements listed below.
 
-I was provided with a MongoDB instance. The database had just one collection, `todo`, which had documents that look like:
+The database with the instance provided had just one collection, `todo`, which had documents that look like:
 ```javascript
     {
          _id: "abcd",
